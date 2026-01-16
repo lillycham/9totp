@@ -136,15 +136,11 @@ gen_totp(vlong period, char* secret)
 	
 	if (base32_decode(secret, strlen((char*)secret), decoded, &n) < 0)
 		sysfatal("decode failed");
-
-	printhex(decoded, 32);
 	
 	//DigestState *s;
 	uchar digest[SHA1dlen];
 	
 	hmac_sha1(b, 8, decoded, n, digest, nil);
-
-	printhex(digest, SHA1dlen);
 
 	// Now we need to truncate the HMAC(C, K, Sha1).
 	ulong otp = truncate_hmac(digest);
